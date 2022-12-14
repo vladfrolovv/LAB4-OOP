@@ -10,7 +10,7 @@ class String {
     // constructors
     String();
     String(int length, T filler);
-    String(std::vector<T> *from);
+    String(std::vector<T> &from);
     String(String<T> &from);
 
   public:
@@ -18,11 +18,11 @@ class String {
     int length;
 
     std::vector<T> AllocateString(int length);
-    std::vector<T> AllocateString(std::vector<T> *from);
+    std::vector<T> AllocateString(std::vector<T> &from);
     std::vector<T> AllocateString(int length, T filler);
 
     T operator[](int index);
-    template<int from, int length> std::tuple<std::vector<T>, int> GetSubstring();
+    template<int _from, int _length> std::vector<T> GetSubstring();
 
 
     void Clear();
@@ -30,6 +30,8 @@ class String {
 
     bool isEmpty();
     bool OutOfBounds(int index);
+
+    void Output();
 };
 
 #endif //LAB4_OOP_STRING_H

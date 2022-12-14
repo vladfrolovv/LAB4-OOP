@@ -1,5 +1,8 @@
 #include "String.h"
 
+#define min(a,b) ((a) < (b) ? (a) : (b))
+#define max(a,b) ((a) > (b) ? (a) : (b))
+
 template <typename T>
 String<T>::String() : length(0) { }
 
@@ -9,12 +12,12 @@ String<T>::String(int length, T filler) : length(length) {
 }
 
 template <typename T>
-String<T>::String(std::vector<T> *filler) : length(length) {
+String<T>::String(std::vector<T> &filler) : length(filler.size()) {
   String<T>::AllocateString(filler);
 }
 
 template <typename T>
-String<T>::String(String<T> &string) : length(length) {
+String<T>::String(String<T> &string) : length(string.length) {
   String<T>::AllocateString(string.symbols);
 }
 
@@ -37,10 +40,10 @@ std::vector<T> String<T>::AllocateString(int length, T filler) {
 }
 
 template <typename T>
-std::vector<T> String<T>::AllocateString(std::vector<T> *filler) {
+std::vector<T> String<T>::AllocateString(std::vector<T> &filler) {
   String<T>::Clear();
-  String<T>::symbols.resize(filler->size());
-  for (int i = 0; i < filler->size(); i++) {
+  String<T>::symbols.resize(filler.size());
+  for (int i = 0; i < filler.size(); i++) {
     String<T>::symbols[i] = filler[i];
   }
 
@@ -77,11 +80,33 @@ T String<T>::operator[](int index) {
   return String<T>::symbols[index];
 }
 
-template <typename T> template <int from, int length>
-std::tuple<std::vector<T>, int> String<T>::GetSubstring() {
+template <typename T> template <int _from, int _length>
+std::vector<T> String<T>::GetSubstring() {
   if (String<T>::isEmpty()) {
-    return { new std::vector<T>, 0 };
+    std::cout << "ERROR: string is Empty" << std::endl;
+    return std::vector<T>();
   }
 
-  return this;
+  if (String<T>::OutOfBounds(_from)) {
+    std::cout << "ERROR: index is Out Of Bounds" << std::endl;
+    return std::vector<T>();
+  }
+
+  std::vector<T> substring;
+  substring.resize(min(_length + _from, String<T>::GetLength()) - _from);
+  for (int i = 0; i < substring.size(); i++) {
+    substring[i] = String<T>::symbols[i + _from];
+  }
+
+  return substring;
+}
+
+template <typename T>
+void String<T>::Output() {
+  std::string output;
+  for (int i = 0; i < String<T>::GetLength(); i++) {
+    output += String<T>::symbols[i];
+  }
+
+  std::cout << output << std::endl;
 }
