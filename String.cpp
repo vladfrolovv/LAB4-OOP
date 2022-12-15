@@ -70,16 +70,6 @@ void String<T>::Clear() {
   String<T>::symbols.clear();
 }
 
-template <typename T>
-T String<T>::operator[](int index) {
-  if (OutOfBounds(index) || String<T>::isEmpty()) {
-    std::cout << "ERROR: index is out of bounds" << std::endl;
-    return ' ';
-  }
-
-  return String<T>::symbols[index];
-}
-
 template <typename T> template <int _from, int _length>
 std::vector<T> String<T>::GetSubstring() {
   if (String<T>::isEmpty()) {
@@ -109,4 +99,63 @@ void String<T>::Output() {
   }
 
   std::cout << output << std::endl;
+}
+
+template<typename T> template <bool left, T symbol>
+std::vector<T> String<T>::Append() {
+  std::vector<T> string = String<T>::symbols;
+  String<T>::Resize(String<T>::symbols.size() + 1);
+  if(!left) {
+    String<T>::symbols[String<T>::symbols.size() - 1] = symbol;
+  } else {
+    for (int i = String<T>::symbols.size() - 2; i >= 0; i--) {
+      String<T>::symbols[i + 1] = String<T>::symbols[i];
+    }
+    String<T>::symbols[0] = symbol;
+  }
+
+  return String<T>::symbols;
+}
+
+template <typename T>
+String<T> &String<T>::operator*=(int n) {
+  std::vector<T> base = String<T>::symbols;
+  String<T>::Resize(String<T>::GetLength() * n);
+  for (int i = 0; i < String<T>::GetLength(); i++) {
+    String<T>::symbols[i] = base[i % n];
+  }
+
+  return *this;
+}
+
+template <typename T>
+T String<T>::operator[](int index) {
+  if (OutOfBounds(index) || String<T>::isEmpty()) {
+    std::cout << "ERROR: index is out of bounds" << std::endl;
+    return ' ';
+  }
+
+  return String<T>::symbols[index];
+}
+
+template <typename T>
+String<T>& String<T>::operator+=(String<T> string) {
+  std::vector<T> vectorL = String<T>::symbols;
+  std::vector<T> vectorR = string.symbols;
+  String<T>::Resize(vectorL.size() + vectorR.size());
+  for (int i = 0; i < vectorL.size(); i++) {
+    String<T>::symbols[i] = vectorL[i];
+  }
+
+  for (int i = vectorL.size(); i < String<T>::GetLength(); i++) {
+    String<T>::symbols[i] = vectorR[i - vectorL.size()];
+  }
+
+  return *this;
+}
+
+template <typename T>
+void String<T>::Resize(int to) {
+  String<T>::symbols.resize(to);
+  String<T>::length = to;
 }

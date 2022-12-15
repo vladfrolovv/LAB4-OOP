@@ -22,11 +22,21 @@ class String {
     std::vector<T> AllocateString(int length, T filler);
 
     T operator[](int index);
+    String<T>& operator+=(String<T> string);
+    String<T>& operator*=(int n);
+    bool operator==(String<T> string);
+    bool operator>=(String<T> string);
+    bool operator>(String<T> string);
+    bool operator<=(String<T> string);
+    bool operator<(String<T> string);
+
+    template<bool left, T s> std::vector<T> Append();
     template<int _from, int _length> std::vector<T> GetSubstring();
 
 
     void Clear();
     int GetLength();
+    void Resize(int to);
 
     bool isEmpty();
     bool OutOfBounds(int index);
