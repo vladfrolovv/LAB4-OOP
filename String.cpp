@@ -129,6 +129,55 @@ String<T> &String<T>::operator*=(int n) {
 }
 
 template <typename T>
+bool String<T>::operator<(String<T> string) {
+  if (String<T>::GetLength() != string.GetLength()) {
+    return String<T>::GetLength() < string.GetLength();
+  }
+
+  for (int i = 0; i < String<T>::GetLength(); i++) {
+    if (int(String<T>::symbols[i]) == int(string[i])) {
+      continue;
+    }
+
+    return (int(String<T>::symbols[i]) < int(string[i]));
+  }
+
+  return false;
+}
+
+template <typename T>
+bool String<T>::operator>(String<T> string) {
+  if (String<T>::GetLength() != string.GetLength()) {
+    return String<T>::GetLength() > string.GetLength();
+  }
+
+  for (int i = 0; i < String<T>::GetLength(); i++) {
+    if (int(String<T>::symbols[i]) == int(string[i])) {
+      continue;
+    }
+
+    return (int(String<T>::symbols[i]) > int(string[i]));
+  }
+
+  return false;
+}
+
+template <typename T>
+bool String<T>::operator==(String<T> string) {
+  if (String<T>::GetLength() != string.GetLength()) {
+    return false;
+  }
+
+  for (int i = 0; i < String<T>::GetLength(); i++) {
+    if (int(String<T>::symbols[i]) != int(string[i])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+template <typename T>
 T String<T>::operator[](int index) {
   if (OutOfBounds(index) || String<T>::isEmpty()) {
     std::cout << "ERROR: index is out of bounds" << std::endl;

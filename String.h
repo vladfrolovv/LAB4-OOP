@@ -25,9 +25,7 @@ class String {
     String<T>& operator+=(String<T> string);
     String<T>& operator*=(int n);
     bool operator==(String<T> string);
-    bool operator>=(String<T> string);
     bool operator>(String<T> string);
-    bool operator<=(String<T> string);
     bool operator<(String<T> string);
 
     template<bool left, T s> std::vector<T> Append();
@@ -42,6 +40,7 @@ class String {
     bool OutOfBounds(int index);
 
     void Output();
+
 };
 
 #endif //LAB4_OOP_STRING_H
